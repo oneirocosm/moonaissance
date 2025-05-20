@@ -10,7 +10,6 @@ type PlayerConfigProps = {
 }
 
 export default function PlayerConfig(props: PlayerConfigProps) {
-    const [hostUrl] = useReplicant<string>("hostUrl");
     const [player, setPlayer] = useReplicant<PlayerData>(props.id);
     const [order, setOrder] = React.useState<Array<string>>([]);
     const [time01, setTime01] = React.useState<string>("");
