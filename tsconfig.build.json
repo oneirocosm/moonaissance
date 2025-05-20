@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		// Required for parcel
+		"isolatedModules": true,
+		"jsx": "react",
+		// Output related
+		"target": "es2019",
+		"outDir": "./build",
+		"module": "commonjs",
+		// Module resolution
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		// Type checking
+		"strict": true,
+		"strictNullChecks": true,
+		// Extra output
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"inlineSourceMap": false
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"node_modules/@nodecg/types/augment-window.d.ts"
+	]
+}
