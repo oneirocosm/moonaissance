@@ -8,9 +8,7 @@ export function Index() {
 		<div style={{display: "flex",
             width: 498,
             height: 307,
-            border: "solid 1px black",
 			justifyContent: "space-around",
-            backgroundColor: "#191556",
 		}}>
 			<TfallDetailedStats id={id}/>
 		</div>

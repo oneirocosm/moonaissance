@@ -46,8 +46,8 @@ export function Index() {
 		});
 		idVals.sort(([id1, score1], [id2, score2]) => Number(score1) - Number(score2));
 
-		const curAward = 0;
-		const prevScore = -9999999999;
+		let curAward = 0;
+		let prevScore = -9999999999;
 		const newAwards: Record<string, number> = {};
 		let count = 0;
 		for (const [_, pair] of Object.entries(idVals)) {
@@ -59,6 +59,8 @@ export function Index() {
 				newAwards[id] = count;
 			}
 			count += 1;
+			prevScore = Number(score);
+			curAward = newAwards[id];
 		}
 		setAwardsType(newAwards);
 
@@ -91,9 +93,7 @@ export function Index() {
 			display: "flex",
             width: 1817,
             height: 171,
-            border: "solid 1px black",
 			justifyContent: "space-around",
-			backgroundColor: "#416abf",
 			padding: "0 100px",
 		}}>
 			<TfallSimpleStats id={"player1"}/>
@@ -107,7 +107,7 @@ export function Index() {
 				display: "flex",
 				justifyContent: "space-around",
             	width: 1817,
-            	height: 50,
+            	height: 70,
 				padding: "0 80px",
 			}}>
 				{awards.map((award) => <img src={award.asset} key={award.id}/>)}

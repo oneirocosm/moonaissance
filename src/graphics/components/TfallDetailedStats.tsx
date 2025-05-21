@@ -83,6 +83,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
             color: "#d4b30e",
             marginLeft: "40px",
             marginRight: "auto",
+            fontSize: "24px",
         }}
         >
             <div style={{display: "flex",
@@ -112,14 +113,14 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
                 <h4 style={{
-                    fontSize: 13,
+                    fontSize: 17,
                 }}
                 >
                 In-game penalty:&nbsp;
                 </h4 >
 
                 <h4 style={{
-                    fontSize: 13
+                    fontSize: 17
                 }}
                 >
                 {`${formatTime(2 * parseNum(bestResult.enemies), true)}`}
@@ -143,14 +144,14 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
                 <h4 style={{
-                    fontSize: 13,
+                    fontSize: 17,
                 }}
                 >
                 Modifier:&nbsp;
                 </h4 >
 
                 <h4 style={{
-                    fontSize: 13,
+                    fontSize: 17,
                 }}
                 >
                 {`${formatTime(parseNum(bestResult.penalty, 0), true)}`}
