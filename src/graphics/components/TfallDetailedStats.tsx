@@ -96,7 +96,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
             justifyContent: "center",
             fontFamily: "Metronic",
             fontWeight: 600,
-            color: "#d4b30e",
+            color: "white",
             marginLeft: "40px",
             marginRight: "auto",
             fontSize: "24px",

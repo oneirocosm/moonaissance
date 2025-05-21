@@ -80,10 +80,10 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
             justifyContent: "center",
             fontFamily: "Metronic",
             fontWeight: 600,
-            color: "#d4b30e",
+            color: "white",
             marginLeft: "40px",
             marginRight: "auto",
-            marginBottom: "10px",
+            marginBottom: "5px",
             marginTop: "auto",
         }}
         >
@@ -95,18 +95,18 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
                     {player?.name}
                 </h1>
                 &nbsp;
-                <h4>{formatPronouns(player?.pronouns)}</h4>
+                <h4 style={{fontSize: 17}}>{formatPronouns(player?.pronouns)}</h4>
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
                 <h4 style={{
-                    fontSize: 13,
+                    fontSize: 17,
                 }}
                 >
                 Modifier:&nbsp;
                 </h4 >
 
                 <h4 style={{
-                    fontSize: 13,
+                    fontSize: 17,
                 }}
                 >
                 {`${formatTime(parseNum(bestResult.penalty, 0), true)}`}

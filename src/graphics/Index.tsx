@@ -122,9 +122,9 @@ export function Index() {
             	width: 1817,
             	height: 70,
 				padding: "0 150px",
-				marginTop: -6,
+				marginTop: -18,
 			}}>
-				{awards.map((award) => <motion.img src={award.asset} layout transition={spring} key={award.id}/>)}
+				{awards.map((award) => <motion.img src={award.asset} layout transition={spring} key={award.id} width={85} height={85}/>)}
 			</div>
 		</>
 	);
