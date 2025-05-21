@@ -41,8 +41,11 @@ export function Index() {
 
 		const idVals = Object.entries(players).map(([id, player]) => {
 			const results = player?.results ?? {};
+			if (Object.entries(player?.results?? {}).length == 0) {
+				return [id, 120];
+			}
 			const best = Object.entries(results).map(([res_id, result]) => getValue(result))
-				.reduce((acc, value) => Math.min(acc, value), 120);
+				.reduce((acc, value) => Math.min(acc, value), 9999999);
 			return [id, best];
 		});
 		idVals.sort(([id1, score1], [id2, score2]) => Number(score1) - Number(score2));
