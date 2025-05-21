@@ -8,6 +8,7 @@ export function Panel() {
 			<PlayerConfig id="player2" />
 			<PlayerConfig id="player3" />
 			<PlayerConfig id="player4" />
+			<PlayerConfig id="player5" />
 		</>
 	)
 }

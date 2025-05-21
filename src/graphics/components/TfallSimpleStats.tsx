@@ -83,7 +83,7 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
             color: "#d4b30e",
             marginLeft: "40px",
             marginRight: "auto",
-            marginBottom: "20px",
+            marginBottom: "10px",
             marginTop: "auto",
         }}
         >
