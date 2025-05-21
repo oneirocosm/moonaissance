@@ -37,7 +37,7 @@ function formatTime(totalSeconds: number, posSign: boolean = false) {
     return `${signStr}${minutes.toString()}:${seconds.toString().padStart(2, "0")}.${decimal.toString().padStart(2, "0")}`;
 }
 
-export default function TfallDetailedStats(props: PlayerBlockProps) {
+export default function TfallSimpleStats(props: PlayerBlockProps) {
     const [player, setPlayer] = useReplicant<PlayerData>(props.id);
     const [order, setOrder] = React.useState<Array<string>>([]);
     const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0'});
@@ -83,63 +83,19 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
             color: "#d4b30e",
             marginLeft: "40px",
             marginRight: "auto",
+            marginBottom: "20px",
+            marginTop: "auto",
         }}
         >
             <div style={{display: "flex",
                 alignItems: "center",
+                marginBottom: "10px",
             }}>
                 <h1 style={{fontSize: "64px"}}>
                     {player?.name}
                 </h1>
                 &nbsp;
                 <h4>{formatPronouns(player?.pronouns)}</h4>
-            </div>
-            <div style={{display: "flex",
-                alignItems: "center",
-                marginBottom: "30px",
-            }}>
-                <h3 style={{
-                }}
-                >
-                Raw Time:&nbsp;
-                </h3 >
-
-                <h4 style={{
-                }}
-                >
-                {formatTime(parseNum(bestResult.time, 120) - 2 * parseNum(bestResult.enemies))}
-                </h4 >
-            </div>
-            <div style={{display: "flex", alignItems: "center"}}>
-                <h4 style={{
-                    fontSize: 13,
-                }}
-                >
-                In-game penalty:&nbsp;
-                </h4 >
-
-                <h4 style={{
-                    fontSize: 13
-                }}
-                >
-                {`${formatTime(2 * parseNum(bestResult.enemies), true)}`}
-                </h4 >
-            </div>
-            <div style={{display: "flex",
-                alignItems: "center",
-                marginBottom: "30px",
-            }}>
-                <h3 style={{
-                }}
-                >
-                In-game time:&nbsp;
-                </h3 >
-
-                <h3 style={{
-                }}
-                >
-                {`${formatTime(parseNum(bestResult.time, 120))}`}
-                </h3 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
                 <h4 style={{

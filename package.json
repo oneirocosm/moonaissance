@@ -44,6 +44,12 @@
         "width": 1920,
         "height": 1080,
         "singleInstance": false
+      },
+      {
+        "file": "playerdata/index.html",
+        "width": 498,
+        "height": 307,
+        "singleInstance": false
       }
     ]
   },

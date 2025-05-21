@@ -6,10 +6,40 @@ type ControlFormsProps = {
     result: RunResult;
     id: string;
     setTime: (time: string, id: string) => void;
+    setEnemies: (enemies: string, id: string) => void;
     setPenalty: (penalty: string, id: string) => void;
     deleteResult: (id: string) => void;
     top01: boolean;
     top02: boolean;
+}
+
+function parseNum(num: string, backup: number = 0) {
+    let out = Number(num);
+    if (isNaN(out)) {
+        return backup;
+    }
+    return out;
+}
+
+function formatTime(totalSeconds: number, posSign: boolean = false) {
+    const minutes = Math.floor(Math.abs(totalSeconds) / 60);
+    const seconds = Math.floor(Math.abs(totalSeconds) % 60);
+    const decimal = Math.floor((Math.abs(totalSeconds) - 60*minutes - seconds) * 100);
+
+    let signStr = ""
+    if (totalSeconds < 0){
+        signStr = "-"
+    } else if (posSign) {
+        signStr = "+"
+    }
+
+    return `${signStr}${minutes.toString()}:${seconds.toString().padStart(2, "0")}.${decimal.toString().padStart(2, "0")}`;
+}
+
+function getFinalTime(result: RunResult) {
+    const time = parseNum(result.time, 120);
+    const modifier = parseNum(result.penalty, 0);
+    return formatTime(time + modifier);
 }
 
 export default function TimeInput(props: PropsWithChildren<ControlFormsProps>) {
@@ -23,20 +53,28 @@ export default function TimeInput(props: PropsWithChildren<ControlFormsProps>) {
     }
 
     return (
-        <div style={{display: "flex", backgroundColor: bgColor, border: "1px solid black", borderRadius: "5px", alignItems: "center", padding: "1px 8px"}}>            
+        <div style={{display: "flex", backgroundColor: bgColor, border: "1px solid black", borderRadius: "5px", alignItems: "center", padding: "1px 8px", gap: "10px",}}>            
             <ControlForm label="T" style={{flexShrink: 1}}>
                 &nbsp;
-                <input type="text" style={{width: "100px"}}
+                <input type="text" style={{width: "50px"}}
                     value={props.result.time ?? ""}
                     onChange={(e) => props.setTime(e.target.value, props.id)}
                 />
             </ControlForm>
-            <ControlForm label="P">
-                <input type="number" style={{width: "50px"}}
+            <ControlForm label="E" style={{flexShrink: 1}}>
+                &nbsp;
+                <input type="text" style={{width: "50px"}}
+                    value={props.result.enemies ?? ""}
+                    onChange={(e) => props.setEnemies(e.target.value, props.id)}
+                />
+            </ControlForm>
+            <ControlForm label="M">
+                <input type="text" style={{width: "50px"}}
                     value={props.result.penalty ?? 0}
                     onChange={(e) => props.setPenalty(e.target.value, props.id)}
                 />
             </ControlForm>
+            {getFinalTime(props.result)}
             <button
                 onClick={() => props.deleteResult(props.id)}
                 style={{

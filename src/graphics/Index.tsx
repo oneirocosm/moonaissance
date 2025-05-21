@@ -1,5 +1,5 @@
 import React from 'react';
-import TfallDetailedStats from './components/TfallDetailedStats';
+import TfallSimpleStats from './components/TfallSimpleStats';
 
 export function Index() {
 	return (
@@ -8,12 +8,13 @@ export function Index() {
             height: 171,
             border: "solid 1px black",
 			justifyContent: "space-around",
+			backgroundColor: "#416abf",
 		}}>
-			<TfallDetailedStats id={"player1"}/>
-			<TfallDetailedStats id={"player2"}/>
-			<TfallDetailedStats id={"player3"}/>
-			<TfallDetailedStats id={"player4"}/>
-			<TfallDetailedStats id={"player5"}/>
+			<TfallSimpleStats id={"player1"}/>
+			<TfallSimpleStats id={"player2"}/>
+			<TfallSimpleStats id={"player3"}/>
+			<TfallSimpleStats id={"player4"}/>
+			<TfallSimpleStats id={"player5"}/>
 		</div>
 	);
 }

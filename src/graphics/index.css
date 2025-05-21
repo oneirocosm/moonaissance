@@ -63,3 +63,10 @@
     font-style: italic;
     font-weight: 900;
 }
+
+@font-face {
+    font-family: 'Metronic';
+    src: url(./assets/fonts/MetronicPro-SemiBold.woff2);
+    font-style: normal;
+    font-weight: 600;
+}

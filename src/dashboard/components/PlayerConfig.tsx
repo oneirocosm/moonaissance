@@ -73,6 +73,19 @@ export default function PlayerConfig(props: PlayerConfigProps) {
         setPlayer(newPlayer);
     };
 
+    function setEnemies(enemies: string, id: string) {
+        const oldResults = player?.results ?? {};
+        const result = oldResults[id];
+        if (!result) {
+            return;
+        }
+        const newResult = {...result, enemies: enemies};
+        const newResults = {...oldResults};
+        newResults[id] = newResult;
+        const newPlayer = {...player, results: newResults} as PlayerData;
+        setPlayer(newPlayer);
+    };
+
     function newResult() {
         const oldResults = player?.results ?? {};
         const defaultTime = '120';
@@ -133,7 +146,7 @@ export default function PlayerConfig(props: PlayerConfigProps) {
                     onChange={(e) => setPlayer({ ...player, pronouns: e.target.value } as PlayerData)}
                 />
             </ControlForm>
-            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setPenalty={setPenalty} deleteResult={deleteResult} top01={time01==id} top02={time02==id}/>)}
+            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setEnemies={setEnemies} setPenalty={setPenalty} deleteResult={deleteResult} top01={time01==id} top02={time02==id}/>)}
             <button
                 onClick={() => newResult()}
                 style={{
