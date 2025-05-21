@@ -2,8 +2,23 @@ import React from 'react';
 import { useReplicant } from '@nodecg/react-hooks';
 import { PlayerData, RunResult } from '../../types/playerdata';
 
+import pos01 from "../assets/awards/pos-01.png"
+import pos02 from "../assets/awards/pos-02.png"
+import pos03 from "../assets/awards/pos-03.png"
+import pos04 from "../assets/awards/pos-04.png"
+import pos05 from "../assets/awards/pos-05.png"
+
+const REWARD_SRC = [
+	pos01, pos02, pos03, pos04, pos05,
+];
+
 type PlayerBlockProps = {
     id: string;
+}
+
+function awardSrc(rewardType: Record<string, number>, id: string) {
+    const index = rewardType[id];
+    return REWARD_SRC[index];
 }
 
 function parseNum(num: string, backup: number = 0) {
@@ -41,6 +56,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
     const [player, setPlayer] = useReplicant<PlayerData>(props.id);
     const [order, setOrder] = React.useState<Array<string>>([]);
     const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0'});
+	const [awardsType, setAwardsType] = useReplicant<Record<string, number>>("tf2AwardsType");
 
     const getValue = React.useCallback((result: RunResult) => {
         const parsedTime = parseNum(result.time, 120);
@@ -170,6 +186,11 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                 {`${formatTime(parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0))}`}
                 </h2 >
             </div>
+            <img src={awardSrc({...awardsType}, props.id)} style={{
+                position: "absolute",
+                top: 30,
+                left: 320,
+            }} />
         </div>
     )
 }

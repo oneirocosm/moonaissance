@@ -27,7 +27,7 @@ export function Index() {
     const [player4, setPlayer4] = useReplicant<PlayerData>("player4");
     const [player5, setPlayer5] = useReplicant<PlayerData>("player5");
 	const [order, setOrder] = React.useState<Array<string>>([]);
-	const [awardsType, setAwardsType] = React.useState<Record<string, number>>({});
+	const [awardsType, setAwardsType] = useReplicant<Record<string, number>>("tf2AwardsType");
 	const [awards, setAwards] = React.useState<Array<Award>>([]);
 	
 	React.useEffect(() => {
@@ -77,10 +77,13 @@ export function Index() {
 		for (const playerId of players) {
 			const playerIndex = order.indexOf(playerId);
 			if (playerIndex == -1) {
-				continue
+				continue;
 			}
 			const rewardId = ORDERED_AWARD_IDS[playerIndex];
-			const rewardType = awardsType[playerId];
+			const rewardType = awardsType?.[playerId];
+			if (rewardType == undefined) {
+				continue;
+			}
 			const newReward: Award = {
 				id: rewardId,
 				asset: REWARD_SRC[rewardType],
