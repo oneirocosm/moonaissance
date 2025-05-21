@@ -3,6 +3,7 @@ import TfallSimpleStats from './components/TfallSimpleStats';
 import { PlayerData } from '../types/playerdata';
 import { useReplicant } from '@nodecg/react-hooks';
 import { getValue } from '../types/helper';
+import {motion} from 'framer-motion';
 
 import pos01 from "./assets/awards/pos-01.png"
 import pos02 from "./assets/awards/pos-02.png"
@@ -86,6 +87,12 @@ export function Index() {
 		setAwards(newRewards)
 	}, [order, setAwards, awardsType])
 
+	const spring = {
+		type: "spring",
+		damping: 25,
+		stiffness: 120,
+	}
+
 	return (
 		<>
 		<div style={{
@@ -108,9 +115,10 @@ export function Index() {
 				justifyContent: "space-around",
             	width: 1817,
             	height: 70,
-				padding: "0 80px",
+				padding: "0 150px",
+				marginTop: -6,
 			}}>
-				{awards.map((award) => <img src={award.asset} key={award.id}/>)}
+				{awards.map((award) => <motion.img src={award.asset} layout transition={spring} key={award.id}/>)}
 			</div>
 		</>
 	);
