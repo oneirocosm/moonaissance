@@ -8,6 +8,7 @@ type ControlFormsProps = {
     setTime: (time: string, id: string) => void;
     setEnemies: (enemies: string, id: string) => void;
     setPenalty: (penalty: string, id: string) => void;
+    toggleReady: (id: string) => void;
     deleteResult: (id: string) => void;
     top01: boolean;
     top02: boolean;
@@ -54,22 +55,27 @@ export default function TimeInput(props: PropsWithChildren<ControlFormsProps>) {
 
     return (
         <div style={{display: "flex", backgroundColor: bgColor, border: "1px solid black", borderRadius: "5px", alignItems: "center", padding: "1px 8px", gap: "10px",}}>            
+            <input
+                type="checkbox"
+                checked={props.result.ready}
+                onChange={() => props.toggleReady(props.id)}
+            />
             <ControlForm label="T" style={{flexShrink: 1}}>
                 &nbsp;
-                <input type="text" style={{width: "50px"}}
+                <input type="text" style={{width: "45px"}}
                     value={props.result.time ?? ""}
                     onChange={(e) => props.setTime(e.target.value, props.id)}
                 />
             </ControlForm>
             <ControlForm label="E" style={{flexShrink: 1}}>
                 &nbsp;
-                <input type="text" style={{width: "50px"}}
+                <input type="text" style={{width: "45px"}}
                     value={props.result.enemies ?? ""}
                     onChange={(e) => props.setEnemies(e.target.value, props.id)}
                 />
             </ControlForm>
             <ControlForm label="M">
-                <input type="text" style={{width: "50px"}}
+                <input type="text" style={{width: "45px"}}
                     value={props.result.penalty ?? 0}
                     onChange={(e) => props.setPenalty(e.target.value, props.id)}
                 />

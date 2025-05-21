@@ -2,6 +2,7 @@ export interface RunResult {
     time: string;
     enemies: string;
     penalty: string;
+    ready: boolean;
 }
 export interface PlayerData {
     /**

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useReplicant } from '@nodecg/react-hooks';
 import { PlayerData, RunResult } from '../../types/playerdata';
+import TweenTime from './TweenTime';
 
 import pos01 from "../assets/awards/pos-01.png"
 import pos02 from "../assets/awards/pos-02.png"
@@ -37,25 +38,10 @@ function formatPronouns(pronouns: string | undefined) {
     }
 }
 
-function formatTime(totalSeconds: number, posSign: boolean = false) {
-    const minutes = Math.floor(Math.abs(totalSeconds) / 60);
-    const seconds = Math.floor(Math.abs(totalSeconds) % 60);
-    const decimal = Math.floor((Math.abs(totalSeconds) - 60*minutes - seconds) * 100);
-
-    let signStr = ""
-    if (totalSeconds < 0){
-        signStr = "-"
-    } else if (posSign) {
-        signStr = "+"
-    }
-
-    return `${signStr}${minutes.toString()}:${seconds.toString().padStart(2, "0")}.${decimal.toString().padStart(2, "0")}`;
-}
-
 export default function TfallDetailedStats(props: PlayerBlockProps) {
     const [player, setPlayer] = useReplicant<PlayerData>(props.id);
     const [order, setOrder] = React.useState<Array<string>>([]);
-    const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0'});
+    const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0', ready: true});
 	const [awardsType, setAwardsType] = useReplicant<Record<string, number>>("tf2AwardsType");
 
     const getValue = React.useCallback((result: RunResult) => {
@@ -68,7 +54,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
     }, []);
 
     React.useEffect(() => {
-        const idvals = Object.entries(player?.results ?? []).map(([id, result]) => {
+        const idvals = Object.entries(player?.results ?? []).filter(([id, result]) => result.ready).map(([id, result]) => {
             const value = getValue(result)
             return [id, value]
         });
@@ -81,9 +67,9 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
         let bestResult: RunResult;
         if (order.length > 0) {
             const id = order[0];
-            bestResult = player?.results[id] as RunResult || {time: '120', enemies: '0', penalty: '0'};
+            bestResult = player?.results[id] as RunResult || {time: '120', enemies: '0', penalty: '0', ready: true};
         } else {
-            bestResult = {time: '120', enemies: '0', penalty: '0'};
+            bestResult = {time: '120', enemies: '0', penalty: '0', ready: true};
         }
         setBestResult(bestResult)
 
@@ -124,7 +110,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                 <h4 style={{
                 }}
                 >
-                {formatTime(parseNum(bestResult.time, 120) - 2 * parseNum(bestResult.enemies))}
+                <TweenTime value={parseNum(bestResult.time, 120) - 2 * parseNum(bestResult.enemies)}/>
                 </h4 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -139,7 +125,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                     fontSize: 17
                 }}
                 >
-                {`${formatTime(2 * parseNum(bestResult.enemies), true)}`}
+                <TweenTime value={2 * parseNum(bestResult.enemies)} posSign={true} />
                 </h4 >
             </div>
             <div style={{display: "flex",
@@ -155,7 +141,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                 <h3 style={{
                 }}
                 >
-                {`${formatTime(parseNum(bestResult.time, 120))}`}
+                <TweenTime value={parseNum(bestResult.time, 120)} />
                 </h3 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -170,7 +156,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                     fontSize: 17,
                 }}
                 >
-                {`${formatTime(parseNum(bestResult.penalty, 0), true)}`}
+                <TweenTime value={parseNum(bestResult.penalty, 0)} posSign={true}/>
                 </h4 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -183,7 +169,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                 <h2 style={{
                 }}
                 >
-                {`${formatTime(parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0))}`}
+                <TweenTime value={parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0)} />
                 </h2 >
             </div>
             <img src={awardSrc({...awardsType}, props.id)} style={{

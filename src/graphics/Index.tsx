@@ -44,7 +44,7 @@ export function Index() {
 			if (Object.entries(player?.results?? {}).length == 0) {
 				return [id, 120];
 			}
-			const best = Object.entries(results).map(([res_id, result]) => getValue(result))
+			const best = Object.entries(results).filter(([res_id, result]) => result.ready).map(([res_id, result]) => getValue(result))
 				.reduce((acc, value) => Math.min(acc, value), 9999999);
 			return [id, best];
 		});

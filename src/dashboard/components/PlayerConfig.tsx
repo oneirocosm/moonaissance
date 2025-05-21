@@ -15,22 +15,6 @@ export default function PlayerConfig(props: PlayerConfigProps) {
     const [time01, setTime01] = React.useState<string>("");
     const [time02, setTime02] = React.useState<string>("");
 
-    /*
-    const getApiKey = React.useCallback((): string => {
-        let url = parse(hostUrl ?? "", true);
-        return url.query.api as string
-    }, [hostUrl]);
-    */
-
-    /*
-    function setName(newName: string) {
-        const updatedPlayer = {
-            ...player,
-            name: newName,
-        };
-        setPlayer(updatedPlayer as PlayerData)
-    }
-    */
     const getValue = React.useCallback((result: RunResult) => {
         const parsedTime = Number(result.time);
         let useTime = 120;
@@ -86,10 +70,23 @@ export default function PlayerConfig(props: PlayerConfigProps) {
         setPlayer(newPlayer);
     };
 
+    function toggleReady(id: string) {
+        const oldResults = player?.results ?? {};
+        const result = oldResults[id];
+        if (!result) {
+            return;
+        }
+        const newResult = {...result, ready: !result.ready};
+        const newResults = {...oldResults};
+        newResults[id] = newResult;
+        const newPlayer = {...player, results: newResults} as PlayerData;
+        setPlayer(newPlayer);
+    }
+
     function newResult() {
         const oldResults = player?.results ?? {};
         const defaultTime = '120';
-        const newResult = {time: defaultTime, enemies: '0', penalty: '0'};
+        const newResult = {time: defaultTime, enemies: '0', penalty: '0', ready: false};
         const newId = uuidv4();
         const newResults = {...oldResults};
         newResults[newId] = newResult;
@@ -106,7 +103,7 @@ export default function PlayerConfig(props: PlayerConfigProps) {
     }
 
     React.useEffect(() => {
-        const idvals = Object.entries(player?.results ?? []).map(([id, result]) => {
+        const idvals = Object.entries(player?.results ?? []).filter(([id, result]) => result.ready).map(([id, result]) => {
             const value = getValue(result)
             return [id, value]
         });
@@ -146,7 +143,7 @@ export default function PlayerConfig(props: PlayerConfigProps) {
                     onChange={(e) => setPlayer({ ...player, pronouns: e.target.value } as PlayerData)}
                 />
             </ControlForm>
-            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setEnemies={setEnemies} setPenalty={setPenalty} deleteResult={deleteResult} top01={time01==id} top02={time02==id}/>)}
+            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setEnemies={setEnemies} setPenalty={setPenalty} deleteResult={deleteResult} toggleReady={toggleReady} top01={time01==id} top02={time02==id}/>)}
             <button
                 onClick={() => newResult()}
                 style={{

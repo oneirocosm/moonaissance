@@ -1,6 +1,7 @@
 import React from 'react';
 import { useReplicant } from '@nodecg/react-hooks';
 import { PlayerData, RunResult } from '../../types/playerdata';
+import TweenTime from './TweenTime';
 
 type PlayerBlockProps = {
     id: string;
@@ -40,7 +41,7 @@ function formatTime(totalSeconds: number, posSign: boolean = false) {
 export default function TfallSimpleStats(props: PlayerBlockProps) {
     const [player, setPlayer] = useReplicant<PlayerData>(props.id);
     const [order, setOrder] = React.useState<Array<string>>([]);
-    const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0'});
+    const [bestResult, setBestResult] = React.useState<RunResult>({time: '120', enemies: '0', penalty: '0', ready: true});
 
     const getValue = React.useCallback((result: RunResult) => {
         const parsedTime = parseNum(result.time, 120);
@@ -52,7 +53,7 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
     }, []);
 
     React.useEffect(() => {
-        const idvals = Object.entries(player?.results ?? []).map(([id, result]) => {
+        const idvals = Object.entries(player?.results ?? []).filter(([id, result]) => result.ready).map(([id, result]) => {
             const value = getValue(result)
             return [id, value]
         });
@@ -65,9 +66,9 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
         let bestResult: RunResult;
         if (order.length > 0) {
             const id = order[0];
-            bestResult = player?.results[id] || {time: '120', enemies: '0', penalty: '0'};
+            bestResult = player?.results[id] || {time: '120', enemies: '0', penalty: '0', ready: true};
         } else {
-            bestResult = {time: '120', enemies: '0', penalty: '0'};
+            bestResult = {time: '120', enemies: '0', penalty: '0', ready: true};
         }
         setBestResult(bestResult)
 
@@ -109,7 +110,7 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
                     fontSize: 17,
                 }}
                 >
-                {`${formatTime(parseNum(bestResult.penalty, 0), true)}`}
+                <TweenTime value={parseNum(bestResult.penalty, 0)} posSign={true} />
                 </h4 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -122,7 +123,7 @@ export default function TfallSimpleStats(props: PlayerBlockProps) {
                 <h2 style={{
                 }}
                 >
-                {`${formatTime(parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0))}`}
+                <TweenTime value={parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0)}/>
                 </h2 >
             </div>
         </div>
