@@ -65,7 +65,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
         let bestResult: RunResult;
         if (order.length > 0) {
             const id = order[0];
-            bestResult = player?.results[id] || {time: '120', enemies: '0', penalty: '0'};
+            bestResult = player?.results[id] as RunResult || {time: '120', enemies: '0', penalty: '0'};
         } else {
             bestResult = {time: '120', enemies: '0', penalty: '0'};
         }

@@ -4,7 +4,7 @@
 		"isolatedModules": true,
 		"jsx": "react",
 		// Output related
-		"target": "es2019",
+		"target": "es2020",
 		"outDir": "./build",
 		"module": "commonjs",
 		// Module resolution
