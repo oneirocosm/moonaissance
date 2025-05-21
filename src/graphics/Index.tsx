@@ -41,7 +41,7 @@ export function Index() {
 
 		const idVals = Object.entries(players).map(([id, player]) => {
 			const results = player?.results ?? {};
-			if (Object.entries(player?.results?? {}).length == 0) {
+			if (Object.entries(player?.results?? {}).filter(([res_id, result]) => result.ready).length == 0) {
 				return [id, 120];
 			}
 			const best = Object.entries(results).filter(([res_id, result]) => result.ready).map(([res_id, result]) => getValue(result))
