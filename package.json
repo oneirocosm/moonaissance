@@ -50,6 +50,12 @@
         "width": 498,
         "height": 307,
         "singleInstance": false
+      },
+      {
+        "file": "tracker/index.html",
+        "width": 498,
+        "height": 307,
+        "singleInstance": false
       }
     ]
   },
