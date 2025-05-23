@@ -12,6 +12,7 @@ import trackerDownGoals from "../assets/tracker/tracker-down-goals.png";
 import trackerUpGoals from "../assets/tracker/tracker-up-goals.png";
 import trackerKnight from "../assets/tracker/tracker-knight.png";
 import tracker6000 from "../assets/tracker/tracker-6000.png";
+import { useReplicant } from '@nodecg/react-hooks';
 
 function getHairOffset(total: number): string {
     const xs = [0, 1000, 2000, 3000, 4000, 5000, 6000];
@@ -40,19 +41,21 @@ function getKnightPosition(total: number): [number, number] {
 export function Index() {
     const queryParameters = new URLSearchParams(window.location.search);
     const narrow = queryParameters.get("narrow") ?? "false";
-    const [total, setTotal] = React.useState(0)
-    const shown = useIncrementNumber(total);
+    const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
+    const shown = useIncrementNumber(total ?? 0);
 
     let bgSource = trackerBg;
     if (narrow == "true") {
         bgSource = trackerBgNarrow;
     }
 
+    /*
     React.useEffect(() => {
         let a = setInterval(() => setTotal((t) => t+300), 3000)
 
         return (() => clearInterval(a));
     }, [])
+    */
 
 	const spring = {
         duration: 2,
