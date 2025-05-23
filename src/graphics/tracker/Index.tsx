@@ -85,6 +85,14 @@ export function Index() {
                 WebkitMaskPosition: getHairOffset(shown),
             }} src={trackerHair} key={"hair-movement"}/>
             <img style={{position: "absolute", left: `${getKnightPosition(shown)[0]}px`, top: `${getKnightPosition(shown)[1]}px`}} src={trackerKnight}/>
+            {narrow != "true" && <span style={{
+                position: "absolute",
+                right: 510,
+                top: 22, 
+                fontFamily: "PirataOne",
+                fontSize: 124,
+                color: "#1B1971",
+                }}>${Math.floor(shown)}</span>}
 		</div>
 	);
 }

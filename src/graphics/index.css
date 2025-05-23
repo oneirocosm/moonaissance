@@ -70,3 +70,10 @@
     font-style: normal;
     font-weight: 600;
 }
+
+@font-face {
+    font-family: 'PirataOne';
+    src: url(./assets/fonts/PirataOne-Regular.ttf);
+    font-style: normal;
+    font-weight: 400;
+}
