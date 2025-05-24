@@ -9,6 +9,7 @@ import trackerBg from "../assets/tracker/tracker-bg.png";
 import trackerHair from "../assets/tracker/tracker-hair.png";
 import trackerHairMask from "../assets/tracker/tracker-hair-mask.png";
 import trackerDownGoals from "../assets/tracker/tracker-down-goals.png";
+import trackerDownGoalsNarrow from "../assets/tracker/tracker-down-goals-narrow.png";
 import trackerUpGoals from "../assets/tracker/tracker-up-goals.png";
 import trackerKnight from "../assets/tracker/tracker-knight.png";
 import tracker6000 from "../assets/tracker/tracker-6000.png";
@@ -45,17 +46,11 @@ export function Index() {
     const shown = useIncrementNumber(total ?? 0);
 
     let bgSource = trackerBg;
+    let downSource = trackerDownGoals;
     if (narrow == "true") {
         bgSource = trackerBgNarrow;
+        downSource = trackerDownGoalsNarrow;
     }
-
-    /*
-    React.useEffect(() => {
-        let a = setInterval(() => setTotal((t) => t+300), 3000)
-
-        return (() => clearInterval(a));
-    }, [])
-    */
 
 	const spring = {
         duration: 2,
@@ -68,7 +63,7 @@ export function Index() {
 		}}>
             <img style={{position: "absolute"}} src={bgSource} />
             <AnimatePresence>
-                {(shown < 6000) &&<motion.img style={{position: "absolute"}} src={trackerDownGoals} key="down-goals" exit={{opacity: 0}} transition={spring}/>}
+                {(shown < 6000) &&<motion.img style={{position: "absolute"}} src={downSource} key="down-goals" exit={{opacity: 0}} transition={spring}/>}
             </AnimatePresence>
             <AnimatePresence>
                 {shown >= 6000 && <motion.img style={{position: "absolute"}} src={trackerUpGoals} initial={{opacity: 0}} animate={{opacity: 1}} transition={spring}/>}
