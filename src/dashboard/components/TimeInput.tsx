@@ -12,6 +12,7 @@ type ControlFormsProps = {
     deleteResult: (id: string) => void;
     top01: boolean;
     top02: boolean;
+    playerPenalty: string;
 }
 
 function parseNum(num: string, backup: number = 0) {
@@ -37,9 +38,9 @@ function formatTime(totalSeconds: number, posSign: boolean = false) {
     return `${signStr}${minutes.toString()}:${seconds.toString().padStart(2, "0")}.${decimal.toString().padStart(2, "0")}`;
 }
 
-function getFinalTime(result: RunResult) {
+function getFinalTime(result: RunResult, extraPenalty: string) {
     const time = parseNum(result.time, 120);
-    const modifier = parseNum(result.penalty, 0);
+    const modifier = parseNum(result.penalty, 0) + parseNum(extraPenalty, 0);
     return formatTime(time + modifier);
 }
 
@@ -80,7 +81,7 @@ export default function TimeInput(props: PropsWithChildren<ControlFormsProps>) {
                     onChange={(e) => props.setPenalty(e.target.value, props.id)}
                 />
             </ControlForm>
-            {getFinalTime(props.result)}
+            {getFinalTime(props.result, props.playerPenalty)}
             <button
                 onClick={() => props.deleteResult(props.id)}
                 style={{

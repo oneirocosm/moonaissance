@@ -1,6 +1,6 @@
 import { RunResult } from "./playerdata";
 
-function getValue(result: RunResult) {
+function getValue(result: RunResult, playerPenalty: string) {
         const parsedTime = Number(result.time);
         let useTime = 120;
         if (!isNaN(parsedTime)) {
@@ -12,7 +12,12 @@ function getValue(result: RunResult) {
             penalty = 0;
         }
 
-        const adjustedTime = useTime + penalty;
+        let extraPenalty = Math.round(Number(playerPenalty));
+        if (isNaN(penalty)) {
+            extraPenalty = 0;
+        }
+
+        const adjustedTime = useTime + penalty + extraPenalty;
         return adjustedTime;
 }
 

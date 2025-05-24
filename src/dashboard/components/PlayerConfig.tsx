@@ -15,7 +15,7 @@ export default function PlayerConfig(props: PlayerConfigProps) {
     const [time01, setTime01] = React.useState<string>("");
     const [time02, setTime02] = React.useState<string>("");
 
-    const getValue = React.useCallback((result: RunResult) => {
+    const getValue = React.useCallback((result: RunResult, playerPenalty: string) => {
         const parsedTime = Number(result.time);
         let useTime = 120;
         if (!isNaN(parsedTime)) {
@@ -27,7 +27,12 @@ export default function PlayerConfig(props: PlayerConfigProps) {
             penalty = 0;
         }
 
-        const adjustedTime = useTime + penalty;
+        let extraPenalty = Math.round(Number(playerPenalty));
+        if (isNaN(extraPenalty)) {
+            extraPenalty = 0;
+        }
+
+        const adjustedTime = useTime + penalty + extraPenalty;
         return adjustedTime;
     }, []);
 
@@ -104,13 +109,13 @@ export default function PlayerConfig(props: PlayerConfigProps) {
 
     React.useEffect(() => {
         const idvals = Object.entries(player?.results ?? []).filter(([id, result]) => result.ready).map(([id, result]) => {
-            const value = getValue(result)
+            const value = getValue(result, player?.playerPenalty ?? "0")
             return [id, value]
         });
         idvals.sort(([a_id, a_val], [b_id, b_val]) => Number(a_val) - Number(b_val))
         console.log(idvals);
         setOrder(idvals.map(([id, val]) => id.toString()));
-    }, [player?.results, getValue, setOrder])
+    }, [player?.results, getValue, setOrder, player?.playerPenalty])
 
     React.useEffect(() => {
         if (order.length > 0) {
@@ -143,7 +148,13 @@ export default function PlayerConfig(props: PlayerConfigProps) {
                     onChange={(e) => setPlayer({ ...player, pronouns: e.target.value } as PlayerData)}
                 />
             </ControlForm>
-            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setEnemies={setEnemies} setPenalty={setPenalty} deleteResult={deleteResult} toggleReady={toggleReady} top01={time01==id} top02={time02==id}/>)}
+            <ControlForm label="Global Penalty">
+                <input type="text"
+                    value={player?.playerPenalty ?? ""}
+                    onChange={(e) => setPlayer({ ...player, playerPenalty: e.target.value } as PlayerData)}
+                />
+            </ControlForm>
+            {Object.entries(player?.results ?? []).map(([id, result]) => <TimeInput result={result} key={id} id={id} setTime={setTime} setEnemies={setEnemies} setPenalty={setPenalty} deleteResult={deleteResult} toggleReady={toggleReady} top01={time01==id} top02={time02==id} playerPenalty={player?.playerPenalty ?? "0"}/>)}
             <button
                 onClick={() => newResult()}
                 style={{

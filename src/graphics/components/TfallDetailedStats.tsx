@@ -47,11 +47,11 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
     const getValue = React.useCallback((result: RunResult) => {
         const parsedTime = parseNum(result.time, 120);
 
-        const penalty = parseNum(result.penalty)
+        const penalty = parseNum(result.penalty) + parseNum(player?.playerPenalty ?? "0")
 
         const adjustedTime = parsedTime + penalty;
         return adjustedTime;
-    }, []);
+    }, [player?.playerPenalty]);
 
     React.useEffect(() => {
         const idvals = Object.entries(player?.results ?? []).filter(([id, result]) => result.ready).map(([id, result]) => {
@@ -156,7 +156,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                     fontSize: 17,
                 }}
                 >
-                <TweenTime value={parseNum(bestResult.penalty, 0)} posSign={true}/>
+                <TweenTime value={parseNum(bestResult.penalty, 0) + parseNum(player?.playerPenalty ?? "0")} posSign={true}/>
                 </h4 >
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -169,7 +169,7 @@ export default function TfallDetailedStats(props: PlayerBlockProps) {
                 <h2 style={{
                 }}
                 >
-                <TweenTime value={parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0)} />
+                <TweenTime value={parseNum(bestResult.time, 120) + parseNum(bestResult.penalty, 0) + parseNum(player?.playerPenalty ?? "0")} />
                 </h2 >
             </div>
             <img src={awardSrc({...awardsType}, props.id)} style={{
