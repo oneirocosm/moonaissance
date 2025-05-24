@@ -43,7 +43,7 @@ export function Index() {
     const queryParameters = new URLSearchParams(window.location.search);
     const narrow = queryParameters.get("narrow") ?? "false";
     const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
-    const shown = useIncrementNumber(total ?? 0) + 12282.03;
+    const shown = useIncrementNumber(total ?? 0);
 
     let bgSource = trackerBg;
     let downSource = trackerDownGoals;
