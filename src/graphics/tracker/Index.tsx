@@ -3,6 +3,7 @@ import Spline from "typescript-cubic-spline";
 import {useIncrementNumSpeed} from "../../types/useIncrementNumSpeed"
 import {useIncrementNumber} from "../../types/useIncrementNumber"
 import {motion, AnimatePresence} from "framer-motion";
+import { useReplicant } from '@nodecg/react-hooks';
 
 import trackerBgNarrow from "../assets/tracker/tracker-bg-narrow.png";
 import trackerBg from "../assets/tracker/tracker-bg.png";
@@ -13,7 +14,7 @@ import trackerDownGoalsNarrow from "../assets/tracker/tracker-down-goals-narrow.
 import trackerUpGoals from "../assets/tracker/tracker-up-goals.png";
 import trackerKnight from "../assets/tracker/tracker-knight.png";
 import tracker6000 from "../assets/tracker/tracker-6000.png";
-import { useReplicant } from '@nodecg/react-hooks';
+import trackerMoon from "../assets/tracker/tracker-moon.png";
 
 function getHairOffset(total: number): string {
     const xs = [0, 1000, 2000, 3000, 4000, 5000, 6000];
@@ -47,14 +48,24 @@ export function Index() {
 
     let bgSource = trackerBg;
     let downSource = trackerDownGoals;
+    let moonX = 0;
+    let moonScale = 1;
     if (narrow == "true") {
         bgSource = trackerBgNarrow;
         downSource = trackerDownGoalsNarrow;
+        moonX = -790;
+        moonScale = 0.6;
     }
 
-	const spring = {
+	const ease = {
         duration: 2,
-	}
+	};
+
+    const wobble = {
+        repeatType: "reverse",
+        repeat: Infinity,
+        duration: 2,
+    };
 
 	return (
 		<div style={{position: "relative",
@@ -63,13 +74,13 @@ export function Index() {
 		}}>
             <img style={{position: "absolute"}} src={bgSource} />
             <AnimatePresence>
-                {(shown < 6000) &&<motion.img style={{position: "absolute"}} src={downSource} key="down-goals" exit={{opacity: 0}} transition={spring}/>}
+                {(shown < 6000) &&<motion.img style={{position: "absolute"}} src={downSource} key="down-goals" exit={{opacity: 0}} transition={ease}/>}
             </AnimatePresence>
             <AnimatePresence>
-                {shown >= 6000 && <motion.img style={{position: "absolute"}} src={trackerUpGoals} initial={{opacity: 0}} animate={{opacity: 1}} transition={spring}/>}
+                {shown >= 6000 && <motion.img style={{position: "absolute"}} src={trackerUpGoals} initial={{opacity: 0}} animate={{opacity: 1}} transition={ease}/>}
             </AnimatePresence>
             <AnimatePresence>
-                {shown >= 5000 && <motion.img style={{position: "absolute"}} src={tracker6000} initial={{opacity: 0}} animate={{opacity: 1}} transition={spring}/>}
+                {shown >= 5000 && <motion.img style={{position: "absolute"}} src={tracker6000} initial={{opacity: 0}} animate={{opacity: 1}} transition={ease}/>}
             </AnimatePresence>
             <img
             style={{
@@ -80,8 +91,27 @@ export function Index() {
                 WebkitMaskPosition: getHairOffset(shown),
             }} src={trackerHair} key={"hair-movement"}/>
             <img style={{position: "absolute", left: `${getKnightPosition(shown)[0]}px`, top: `${getKnightPosition(shown)[1]}px`}} src={trackerKnight}/>
-            {narrow != "true" && <span>
-                    <span style={{
+            {<motion.div style={{
+                position: "absolute",
+                top: 0,
+                left: moonX,
+                transformOrigin: "1885px 204px",
+                WebkitTransformOrigin: "1885px 204px",
+                width: 2160,
+                height: 2700,
+                scale: moonScale,
+            }} animate={{rotate: 5}} initial={{rotate: -2}} transition={{
+                repeatType: "reverse",
+                repeat: Infinity,
+                duration: 4,
+                ease: "easeInOut",
+            }}>
+                <img src={trackerMoon} style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                }}/>
+                <span style={{
                     position: "absolute",
                     right: 560,
                     top: 22, 
@@ -89,8 +119,8 @@ export function Index() {
                     fontSize: 124,
                     color: "#1B1971",
                     }}>${Math.floor(shown)}.
-                    </span>
-                    <span style={{
+                </span>
+                <span style={{
                     position: "absolute",
                     right: 510,
                     top: 87, 
@@ -98,9 +128,8 @@ export function Index() {
                     fontSize: 64,
                     color: "#1B1971",
                     }}>{String(Math.round((shown % 1) * 100)).padStart(2, "0")}
-                    </span>
-                    
-                </span>}
+                </span>
+            </motion.div>}
 		</div>
 	);
 }
