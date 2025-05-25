@@ -149,7 +149,7 @@ export default function PlayerConfig(props: PlayerConfigProps) {
                 />
             </ControlForm>
             <ControlForm label="Global Penalty">
-                <input type="text"
+                <input type="number"
                     value={player?.playerPenalty ?? ""}
                     onChange={(e) => setPlayer({ ...player, playerPenalty: e.target.value } as PlayerData)}
                 />

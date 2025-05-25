@@ -49,15 +49,8 @@ function getKnightPosition(total: number): [number, number] {
 export function Index() {
     const queryParameters = new URLSearchParams(window.location.search);
     const narrow = queryParameters.get("narrow") ?? "false";
-    //const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
-    const [total, setTotal] = React.useState(4500);
+    const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
     const shown = useIncrementNumber(total ?? 0);
-
-    React.useEffect(() => {
-        let interv = setInterval(() => setTotal(t => t+300), 3000);
-
-        return () => {clearInterval(interv)}
-    }, []);
 
     let bgSource = trackerBg;
     let downSource = trackerDownGoals;
@@ -72,6 +65,7 @@ export function Index() {
 
 	const ease = {
         duration: 2,
+        ease: "easeInOut",
 	};
 
     const wobble = {
