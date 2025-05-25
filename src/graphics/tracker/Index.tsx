@@ -123,7 +123,7 @@ export function Index() {
                 width: 2160,
                 height: 2700,
                 scale: moonScale,
-            }} animate={{rotate: 5}} initial={{rotate: -2}} transition={{
+            }} animate={{rotate: 2.65}} initial={{rotate: -2}} transition={{
                 repeatType: "reverse",
                 repeat: Infinity,
                 duration: 4,
