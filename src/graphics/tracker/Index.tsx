@@ -14,7 +14,13 @@ import trackerDownGoalsNarrow from "../assets/tracker/tracker-down-goals-narrow.
 import trackerUpGoals from "../assets/tracker/tracker-up-goals.png";
 import trackerKnight from "../assets/tracker/tracker-knight.png";
 import tracker6000 from "../assets/tracker/tracker-6000.png";
+import tracker12000 from "../assets/tracker/tracker-12000.png";
 import trackerMoon from "../assets/tracker/tracker-moon.png";
+import tracker7000Text from "../assets/tracker/tracker-7000-text.png"
+import tracker8000Text from "../assets/tracker/tracker-8000-text.png"
+import tracker9000Text from "../assets/tracker/tracker-9000-text.png"
+import tracker10000Text from "../assets/tracker/tracker-10000-text.png"
+import tracker11000Text from "../assets/tracker/tracker-11000-new-text.png"
 
 function getHairOffset(total: number): string {
     const xs = [0, 1000, 2000, 3000, 4000, 5000, 6000];
@@ -43,8 +49,15 @@ function getKnightPosition(total: number): [number, number] {
 export function Index() {
     const queryParameters = new URLSearchParams(window.location.search);
     const narrow = queryParameters.get("narrow") ?? "false";
-    const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
+    //const [total, setTotal] = useReplicant("total", {bundle: "nodecg-tiltify"});
+    const [total, setTotal] = React.useState(4500);
     const shown = useIncrementNumber(total ?? 0);
+
+    React.useEffect(() => {
+        let interv = setInterval(() => setTotal(t => t+300), 3000);
+
+        return () => {clearInterval(interv)}
+    }, []);
 
     let bgSource = trackerBg;
     let downSource = trackerDownGoals;
@@ -67,6 +80,14 @@ export function Index() {
         duration: 2,
     };
 
+    const bonusTexts: Record<number, string> = {
+        7000: tracker7000Text,
+        8000: tracker8000Text,
+        9000: tracker9000Text, 
+        10000: tracker10000Text,
+        11000: tracker11000Text
+    }
+
 	return (
 		<div style={{position: "relative",
             width: 2160,
@@ -82,6 +103,14 @@ export function Index() {
             <AnimatePresence>
                 {shown >= 5000 && <motion.img style={{position: "absolute"}} src={tracker6000} initial={{opacity: 0}} animate={{opacity: 1}} transition={ease}/>}
             </AnimatePresence>
+            <AnimatePresence>
+                {shown >= 11000 && <motion.img style={{position: "absolute"}} src={tracker12000} initial={{opacity: 0}} animate={{opacity: 1}} transition={ease}/>}
+            </AnimatePresence>
+            {
+                Object.entries(bonusTexts).map(([amountStr, msg]) => <AnimatePresence key={`${amountStr}-msg`}>
+                    {narrow != "true" && shown >= Number(amountStr) && <motion.img style={{position: "absolute"}} src={msg} initial={{opacity: 0}} animate={{opacity: 1}} transition={ease}/>}
+                </AnimatePresence>)
+            }
             <img
             style={{
                 position: "absolute",
